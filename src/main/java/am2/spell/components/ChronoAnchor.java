@@ -1,5 +1,8 @@
 package am2.spell.components;
 
+import java.util.EnumSet;
+import java.util.Random;
+
 import am2.AMCore;
 import am2.api.ArsMagicaApi;
 import am2.api.spell.component.interfaces.ISpellComponent;
@@ -12,14 +15,12 @@ import am2.particles.AMParticle;
 import am2.particles.ParticleFadeOut;
 import am2.particles.ParticleOrbitEntity;
 import am2.spell.SpellUtils;
+import cpw.mods.fml.common.FMLLog;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-
-import java.util.EnumSet;
-import java.util.Random;
 
 public class ChronoAnchor implements ISpellComponent{
 
@@ -30,6 +31,16 @@ public class ChronoAnchor implements ISpellComponent{
 
 	@Override
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
+		try {
+			String targetPackage = target.getClass().getPackage().getName();
+			if (targetPackage.contains("noppes.npcs.entity")) {
+				return true;
+			}
+		}
+		catch(Exception e) {
+			FMLLog.info("[To_Craft] am2: " + e);
+		}
+		
 		if (target instanceof EntityLivingBase){
 			int duration = SpellUtils.instance.getModifiedInt_Mul(BuffList.default_buff_duration, stack, caster, target, world, 0, SpellModifiers.DURATION);
 			duration = SpellUtils.instance.modifyDurationBasedOnArmor(caster, duration);

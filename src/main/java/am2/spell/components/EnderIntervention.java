@@ -1,5 +1,8 @@
 package am2.spell.components;
 
+import java.util.EnumSet;
+import java.util.Random;
+
 import am2.AMCore;
 import am2.api.ArsMagicaApi;
 import am2.api.spell.component.interfaces.ISpellComponent;
@@ -8,7 +11,7 @@ import am2.buffs.BuffList;
 import am2.items.ItemsCommonProxy;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
-import am2.utility.DimensionUtilities;
+import cpw.mods.fml.common.FMLLog;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,9 +20,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
-
-import java.util.EnumSet;
-import java.util.Random;
 
 public class EnderIntervention implements ISpellComponent{
 
@@ -30,6 +30,16 @@ public class EnderIntervention implements ISpellComponent{
 
 	@Override
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
+		try {
+			String targetPackage = target.getClass().getPackage().getName();
+			if (targetPackage.contains("noppes.npcs.entity")) {
+				return true;
+			}
+		}
+		catch(Exception e) {
+			FMLLog.info("[To_Craft] am2: " + e);
+		}
+		
 		if (world.isRemote || !(target instanceof EntityLivingBase)) return true;
 
 		if (((EntityLivingBase)target).isPotionActive(BuffList.astralDistortion.id)){

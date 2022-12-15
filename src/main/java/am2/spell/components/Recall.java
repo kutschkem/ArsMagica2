@@ -1,5 +1,9 @@
 package am2.spell.components;
 
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.Random;
+
 import am2.AMCore;
 import am2.RitualShapeHelper;
 import am2.api.ArsMagicaApi;
@@ -16,6 +20,7 @@ import am2.playerextensions.ExtendedProperties;
 import am2.utility.DimensionUtilities;
 import am2.utility.EntityUtilities;
 import am2.utility.KeystoneUtilities;
+import cpw.mods.fml.common.FMLLog;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,10 +29,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.Random;
 
 public class Recall implements ISpellComponent, IRitualInteraction{
 
@@ -40,7 +41,16 @@ public class Recall implements ISpellComponent, IRitualInteraction{
 
 	@Override
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
-
+		try {
+			String targetPackage = target.getClass().getPackage().getName();
+			if (targetPackage.contains("noppes.npcs.entity")) {
+				return true;
+			}
+		}
+		catch(Exception e) {
+			FMLLog.info("[To_Craft] am2: " + e);
+		}
+		
 		if (!(target instanceof EntityLivingBase)){
 			return false;
 		}
