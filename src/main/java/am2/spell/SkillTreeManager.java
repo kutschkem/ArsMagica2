@@ -2,6 +2,7 @@ package am2.spell;
 
 import am2.AMCore;
 import am2.LogHelper;
+import am2.api.ArsMagicaApi;
 import am2.api.SkillTreeEntry;
 import am2.api.spell.ISkillTreeManager;
 import am2.api.spell.component.interfaces.ISkillTreeEntry;
@@ -232,6 +233,8 @@ public class SkillTreeManager implements ISkillTreeManager{
 
 		//utility tree
 		utilityTree.clear();
+		if (AMCore.foundLotRMod) RegisterPart(SkillManager.instance.getSkill("MysticalIntervention"), 75, 225, SkillTrees.Utility,  SkillPointTypes.SILVER, new ISkillTreeEntry[0]);
+		
 		RegisterPart(SkillManager.instance.getSkill("Touch"), 275, 75, SkillTrees.Utility, SkillPointTypes.BLUE);
 
 		RegisterPart(SkillManager.instance.getSkill("Dig"), 275, 120, SkillTrees.Utility, SkillPointTypes.BLUE, SkillManager.instance.getSkill("Touch"));

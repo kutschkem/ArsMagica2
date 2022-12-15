@@ -32,6 +32,7 @@ import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.*;
 import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
@@ -51,7 +52,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 
 import java.io.File;
 
-@Mod(modid = "arsmagica2", modLanguage = "java", name = "Ars Magica 2", version = "1.4.0.009", dependencies = "required-after:AnimationAPI")
+@Mod(modid = "arsmagica2", modLanguage = "java", name = "Ars Magica 2", version = "1.4.0.009", dependencies = "required-after:AnimationAPI;after:lotr")
 public class AMCore{
 
 	@Instance(value = "arsmagica2")
@@ -63,6 +64,8 @@ public class AMCore{
 	public static AMConfig config;
 	public static SkillConfiguration skillConfig;
 	public static final int ANY_META = 32767;
+	
+	public static boolean foundLotRMod = false;
 
 	private String compendiumBase;
 
@@ -86,6 +89,17 @@ public class AMCore{
 
 		proxy.InitializeAndRegisterHandlers();
 		proxy.preinit();
+		
+		/*
+		 * Tests, if the LotR-mod is present
+		 */
+		for (ModContainer modcontainer : Loader.instance().getModList())
+		{				
+			if (modcontainer.getModId().equals("lotr"))
+			{					
+				foundLotRMod = true;
+			}
+		}
 	}
 
 	private String popPathFolder(String path){

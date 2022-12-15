@@ -1,5 +1,6 @@
 package am2.spell;
 
+import am2.AMCore;
 import am2.LogHelper;
 import am2.api.spell.ISpellPartManager;
 import am2.api.spell.component.interfaces.*;
@@ -270,6 +271,8 @@ public class SkillManager implements ISpellPartManager{
 		registerSkillTreeEntry(new PlaceBlock(), "PlaceBlock");
 		registerSkillTreeEntry(new Shrink(), "Shrink");
 		registerSkillTreeEntry(new Nauseate(), "Nauseate");
+		
+		if (AMCore.foundLotRMod) registerSkillTreeEntry(new MysticalIntervention(), "MysticalIntervention");
 
 		//Modifiers
 		registerSkillTreeEntry(new Bounce(), "Bounce");

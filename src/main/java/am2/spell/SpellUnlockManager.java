@@ -60,6 +60,8 @@ public class SpellUnlockManager{
 		entries.add(new UnlockEntry(SkillManager.instance.getSkill("Daylight"), SkillManager.instance.getSkill("TrueSight"), SkillManager.instance.getSkill("DivineIntervention"), SkillManager.instance.getSkill("Light")));
 		entries.add(new UnlockEntry(SkillManager.instance.getSkill("Moonrise"), SkillManager.instance.getSkill("NightVision"), SkillManager.instance.getSkill("EnderIntervention"), SkillManager.instance.getSkill("Lunar")));
 		entries.add(new UnlockEntry(SkillManager.instance.getSkill("Prosperity"), SkillManager.instance.getSkill("Dig"), SkillManager.instance.getSkill("FeatherTouch"), SkillManager.instance.getSkill("MiningPower")));
+		
+		if (AMCore.foundLotRMod) entries.add(new UnlockEntry(SkillManager.instance.getSkill("MysticalIntervention"), SkillManager.instance.getSkill("DivineIntervention"), SkillManager.instance.getSkill("EnderIntervention")));
 	}
 
 	class UnlockEntry{
