@@ -3,9 +3,6 @@ ArsMagica2
 
 Ars Magica 2 Repository
 
-### Is it Playable
-for the most part yes, there's not many game-breaking bugs
-
 ### IRC
  #ArsMagica on Espernet
 
