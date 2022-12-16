@@ -138,7 +138,7 @@ public class AMEventHandler{
 	}
 
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void onEntityDeath(LivingDeathEvent event){
+	public void onEntityDeathChrono(LivingDeathEvent event){
 		EntityLivingBase soonToBeDead = event.entityLiving;
 		if (soonToBeDead.isPotionActive(BuffList.temporalAnchor.id)){
 			event.setCanceled(true);
@@ -150,7 +150,11 @@ public class AMEventHandler{
 			soonToBeDead.removePotionEffect(BuffList.temporalAnchor.id);
 			return;
 		}
+	}
 
+	@SubscribeEvent(priority = EventPriority.LOW)
+	public void onEntityDeath(LivingDeathEvent event){
+		EntityLivingBase soonToBeDead = event.entityLiving;
 		if (ExtendedProperties.For(soonToBeDead).getContingencyType() == ContingencyTypes.DEATH){
 			ExtendedProperties.For(soonToBeDead).procContingency();
 		}
@@ -223,7 +227,7 @@ public class AMEventHandler{
 			double zVelocity = 0;
 
 			Vec3 vec = event.entityLiving.getLookVec().normalize();
-			switch (event.entityLiving.getActivePotionEffect(BuffList.leap).getAmplifier() + 1){
+			switch (event.entityLiving.getActivePotionEffect(BuffList.leap).getAmplifier()){
 			case BuffPowerLevel.Low:
 				yVelocity = 0.4;
 				xVelocity = velocityTarget.motionX * 1.08 * Math.abs(vec.xCoord);
@@ -459,7 +463,7 @@ public class AMEventHandler{
 
 		//leap buff
 		if (event.entityLiving.isPotionActive(BuffList.leap)){
-			int amplifier = event.entityLiving.getActivePotionEffect(BuffList.leap).getAmplifier() + 1;
+			int amplifier = event.entityLiving.getActivePotionEffect(BuffList.leap).getAmplifier();
 
 			switch (amplifier){
 			case BuffPowerLevel.Low:
@@ -485,11 +489,25 @@ public class AMEventHandler{
 
 		//slowfall/shrink buff
 		// (isSneaking calls DataWatcher which are slow, so we test it late)
-		if ( event.entityLiving.isPotionActive(BuffList.slowfall)
-		  || event.entityLiving.isPotionActive(BuffList.shrink)
-		  || (ent instanceof EntityPlayer && AffinityData.For(ent).getAffinityDepth(Affinity.NATURE) == 1.0f && !ent.isSneaking())){
+		if (event.entityLiving.isPotionActive(BuffList.slowfall)
+				|| event.entityLiving.isPotionActive(BuffList.shrink)
+				|| (ent instanceof EntityPlayer && AffinityData.For(ent).getAffinityDepth(Affinity.NATURE) == 1.0f && !ent.isSneaking())){
 			if (!event.entityLiving.onGround && event.entityLiving.motionY < 0.0D){
 				event.entityLiving.motionY *= 0.79999999999999998D;
+			}
+		}
+
+		//swift swim
+		if (event.entityLiving.isPotionActive(BuffList.swiftSwim)){
+			if (event.entityLiving.isInWater()){
+				if (!(event.entityLiving instanceof EntityPlayer) || !((EntityPlayer)event.entityLiving).capabilities.isFlying){
+					event.entityLiving.motionX *= (1.133f + 0.03 * event.entityLiving.getActivePotionEffect(BuffList.swiftSwim).getAmplifier());
+					event.entityLiving.motionZ *= (1.133f + 0.03 * event.entityLiving.getActivePotionEffect(BuffList.swiftSwim).getAmplifier());
+
+					if (event.entityLiving.motionY > 0){
+						event.entityLiving.motionY *= 1.134;
+					}
+				}
 			}
 		}
 
@@ -611,10 +629,10 @@ public class AMEventHandler{
 		}
 
 		Entity entitySource = event.source.getSourceOfDamage();
-		if ( entitySource instanceof EntityPlayer
-		  && ((EntityPlayer)entitySource).inventory.armorInventory[2] != null
-		  && ((EntityPlayer)entitySource).inventory.armorInventory[2].getItem() == ItemsCommonProxy.earthGuardianArmor
-		  && ((EntityPlayer)entitySource).getCurrentEquippedItem() == null ){
+		if (entitySource instanceof EntityPlayer
+				&& ((EntityPlayer)entitySource).inventory.armorInventory[2] != null
+				&& ((EntityPlayer)entitySource).inventory.armorInventory[2].getItem() == ItemsCommonProxy.earthGuardianArmor
+				&& ((EntityPlayer)entitySource).getCurrentEquippedItem() == null){
 			event.ammount += 4;
 
 			double deltaZ = event.entityLiving.posZ - entitySource.posZ;
@@ -645,8 +663,8 @@ public class AMEventHandler{
 		if (ent.isPotionActive(BuffList.fury.id))
 			event.ammount /= 2;
 
-		if ( entitySource instanceof EntityLivingBase
-		  && ((EntityLivingBase)entitySource).isPotionActive(BuffList.shrink))
+		if (entitySource instanceof EntityLivingBase
+				&& ((EntityLivingBase)entitySource).isPotionActive(BuffList.shrink))
 			event.ammount /= 2;
 	}
 
