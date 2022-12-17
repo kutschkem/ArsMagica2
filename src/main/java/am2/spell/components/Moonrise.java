@@ -1,17 +1,19 @@
 package am2.spell.components;
 
+import java.util.EnumSet;
+import java.util.Random;
+
+import am2.AMCore;
 import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.enums.Affinity;
 import am2.items.ItemsCommonProxy;
+import lotr.common.LOTRTime;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-
-import java.util.EnumSet;
-import java.util.Random;
 
 public class Moonrise implements ISpellComponent{
 
@@ -29,10 +31,14 @@ public class Moonrise implements ISpellComponent{
 		return 69;
 	}
 
-	private boolean setNightTime(World world){
+	private boolean setNightTime(World world, EntityLivingBase caster){
 		if (!world.isDaytime())
 			return false;
-		if (!world.isRemote){
+		if (!world.isRemote && AMCore.foundLotRMod && caster.dimension == 100){
+			LOTRTime.setWorldTime(Math.round(LOTRTime.DAY_LENGTH * 0.6));
+			return true;
+		}
+		else if (!world.isRemote){
 			long curTime = ((WorldServer)world).getWorldTime();
 			int day = (int)Math.floor(curTime / 24000);
 			((WorldServer)world).setWorldTime((day * 24000) + 13250);
@@ -42,12 +48,12 @@ public class Moonrise implements ISpellComponent{
 
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-		return setNightTime(world);
+		return setNightTime(world, caster);
 	}
 
 	@Override
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
-		return setNightTime(world);
+		return setNightTime(world, caster);
 	}
 
 	@Override
