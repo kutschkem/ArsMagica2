@@ -400,6 +400,9 @@ am2.spell.wave=Welle
 am2.spell.wizardsautumn=Des Zauberers Herbst
 am2.spell.zone=Zone
 
+am2.spell.mysticalintervention=Mystische Intervention
+am2.spell.electricity=Elektrizität
+
 #tooltips
 am2.tooltip.air_sled=§3Fliege mit großer Leichtigkeit durch die Luft§f
 am2.tooltip.approError=Etwas ist bei der Wiederherstellung des Block schief gegangen. Die Zauberspruch ist wahrscheinlich in einer älteren Version erstellt worden. Der gespeicherte Block wurde entfernt, um einen Crash zu verhindern. der Zauberspruch sollte fortan wieder funktionieren. Sorry :/!
