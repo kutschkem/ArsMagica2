@@ -8,7 +8,6 @@ import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -84,11 +83,6 @@ public class AM2PreloaderContainer extends DummyModContainer implements IFMLLoad
 
 	@Override
 	public void injectData(Map<String, Object> data){
-		if (((String)data.get("coremodList")).contains("DragonAPIASMHandler")){
-			LogHelper.info("Core: Located DragonAPI in list of coremods");
-			foundDragonAPI = true;
-		}
-
 		// This is very crude check for mods presence using filename.
 		// Some mods may refer to others in their name, so we'll to confirm those assumption with class presence check.
 		File loc = (File)data.get("mcLocation");
@@ -97,14 +91,7 @@ public class AM2PreloaderContainer extends DummyModContainer implements IFMLLoad
 		isDevEnvironment = !(Boolean)data.get("runtimeDeobfuscationEnabled");
 
 		File mcFolder = new File(loc.getAbsolutePath() + File.separatorChar + "mods");
-		File mcVersionFolder = new File(mcFolder.getAbsolutePath() + File.separatorChar + "1.7.10");
-		ArrayList<File> subfiles = new ArrayList<>();
-		if (mcFolder.listFiles() != null){
-			subfiles = new ArrayList<>(Arrays.asList(mcFolder.listFiles()));
-			if (mcVersionFolder.listFiles() != null){
-				subfiles.addAll(Arrays.asList(mcVersionFolder.listFiles()));
-			}
-		}
+		File[] subfiles = mcFolder.listFiles();
 		for (File file : subfiles){
 			String name = file.getName();
 			if (name != null) {
