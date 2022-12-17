@@ -37,13 +37,14 @@ public class Storm implements ISpellComponent{
 	}
 
 	private void applyEffect(EntityLivingBase caster, World world){
-		if (AMCore.config.getRainOnlyOverworld()) world = DimensionManager.getWorld(0);
+		World rainWorld = world;
+		if (AMCore.config.getRainOnlyOverworld()) rainWorld = DimensionManager.getWorld(0);
 		float rainStrength;
 		if (!DimensionManager.getWorld(0).isRemote && AMCore.foundLotRMod && caster.dimension == 100){
 			rainStrength = DimensionManager.getWorld(0).getRainStrength(1.0f);
 		}
 		else {
-			rainStrength = world.getRainStrength(1.0f);
+			rainStrength = rainWorld.getRainStrength(1.0f);
 		}
 		if (rainStrength > 0.9D){
 			if (!world.isRemote){
@@ -79,8 +80,7 @@ public class Storm implements ISpellComponent{
 				}
 			}
 		}else if (!world.isRemote) {
-			if (!AMCore.config.getRainOnlyOverworld() && AMCore.foundLotRMod && caster.dimension == 100) world = DimensionManager.getWorld(0);
-			world.getWorldInfo().setRaining(true);
+			if (!AMCore.config.getRainOnlyOverworld() && AMCore.foundLotRMod && caster.dimension == 100) DimensionManager.getWorld(0).getWorldInfo().setRaining(true);
 		}
 	}
 
