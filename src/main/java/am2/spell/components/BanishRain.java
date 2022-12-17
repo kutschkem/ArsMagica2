@@ -1,5 +1,8 @@
 package am2.spell.components;
 
+import java.util.EnumSet;
+import java.util.Random;
+
 import am2.AMCore;
 import am2.RitualShapeHelper;
 import am2.api.blocks.MultiblockStructureDefinition;
@@ -15,25 +18,37 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-
-import java.util.EnumSet;
-import java.util.Random;
+import net.minecraftforge.common.DimensionManager;
 
 public class BanishRain implements ISpellComponent, IRitualInteraction{
-
+	
+	public boolean callRain(World world, EntityLivingBase caster) {
+		if (AMCore.config.getRainOnlyOverworld()) world = DimensionManager.getWorld(0);
+		else if (AMCore.foundLotRMod && caster.dimension == 100) world = DimensionManager.getWorld(0);
+		
+		world.getWorldInfo().setRainTime(0);
+		world.getWorldInfo().setRaining(true);
+		return true;
+	}
+	
+	public boolean banishRain(World world, EntityLivingBase caster) {
+		if (AMCore.config.getRainOnlyOverworld()) world = DimensionManager.getWorld(0);
+		else if (AMCore.foundLotRMod && caster.dimension == 100) world = DimensionManager.getWorld(0);
+		
+		if (!world.isRaining()) return false;
+		world.getWorldInfo().setRainTime(24000);
+		world.getWorldInfo().setRaining(false);
+		return true;
+	}
+	
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		ItemStack[] reagents = RitualShapeHelper.instance.checkForRitual(this, world, blockx, blocky, blockz, true);
 		if (reagents != null && reagents.length > 0){
 			RitualShapeHelper.instance.consumeRitualReagents(this, world, blockx, blocky, blockz);
-			world.getWorldInfo().setRainTime(0);
-			world.getWorldInfo().setRaining(true);
-			return true;
+			return callRain(world, caster);
 		}
-		if (!world.isRaining()) return false;
-		world.getWorldInfo().setRainTime(24000);
-		world.getWorldInfo().setRaining(false);
-		return true;
+		return banishRain(world, caster);
 	}
 
 	@Override
@@ -41,14 +56,9 @@ public class BanishRain implements ISpellComponent, IRitualInteraction{
 		ItemStack[] reagents = RitualShapeHelper.instance.checkForRitual(this, world, (int)Math.floor(target.posX), (int)Math.floor(target.posY), (int)Math.floor(target.posZ), true);
 		if (reagents != null && reagents.length > 0){
 			RitualShapeHelper.instance.consumeRitualReagents(this, world, (int)Math.floor(target.posX), (int)Math.floor(target.posY), (int)Math.floor(target.posZ));
-			world.getWorldInfo().setRainTime(0);
-			world.getWorldInfo().setRaining(true);
-			return true;
+			return callRain(world, caster);
 		}
-		if (!world.isRaining()) return false;
-		world.getWorldInfo().setRainTime(24000);
-		world.getWorldInfo().setRaining(false);
-		return true;
+		return banishRain(world, caster);
 	}
 
 	@Override

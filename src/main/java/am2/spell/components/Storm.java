@@ -1,5 +1,9 @@
 package am2.spell.components;
 
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Random;
+
 import am2.AMCore;
 import am2.api.ArsMagicaApi;
 import am2.api.spell.component.interfaces.ISpellComponent;
@@ -17,13 +21,9 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Random;
+import net.minecraftforge.common.DimensionManager;
 
 public class Storm implements ISpellComponent{
-
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		applyEffect(caster, world);
@@ -37,7 +37,14 @@ public class Storm implements ISpellComponent{
 	}
 
 	private void applyEffect(EntityLivingBase caster, World world){
-		float rainStrength = world.getRainStrength(1.0f);
+		if (AMCore.config.getRainOnlyOverworld()) world = DimensionManager.getWorld(0);
+		float rainStrength;
+		if (!DimensionManager.getWorld(0).isRemote && AMCore.foundLotRMod && caster.dimension == 100){
+			rainStrength = DimensionManager.getWorld(0).getRainStrength(1.0f);
+		}
+		else {
+			rainStrength = world.getRainStrength(1.0f);
+		}
 		if (rainStrength > 0.9D){
 			if (!world.isRemote){
 				int xzradius = 50;
@@ -71,10 +78,9 @@ public class Storm implements ISpellComponent{
 					}
 				}
 			}
-		}else{
-			if (!world.isRemote){
-				world.getWorldInfo().setRaining(true);
-			}
+		}else if (!world.isRemote) {
+			if (!AMCore.config.getRainOnlyOverworld() && AMCore.foundLotRMod && caster.dimension == 100) world = DimensionManager.getWorld(0);
+			world.getWorldInfo().setRaining(true);
 		}
 	}
 
