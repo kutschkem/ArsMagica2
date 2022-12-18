@@ -39,14 +39,8 @@ public class Storm implements ISpellComponent{
 	private void applyEffect(EntityLivingBase caster, World world){
 		World rainWorld = world;
 		if (AMCore.config.getRainOnlyOverworld()) rainWorld = DimensionManager.getWorld(0);
-		float rainStrength;
-		if (!DimensionManager.getWorld(0).isRemote && AMCore.foundLotRMod && caster.dimension == 100){
-			rainStrength = DimensionManager.getWorld(0).getRainStrength(1.0f);
-		}
-		else {
-			rainStrength = rainWorld.getRainStrength(1.0f);
-		}
-		if (rainStrength > 0.9D){
+		else if (!DimensionManager.getWorld(0).isRemote && AMCore.foundLotRMod && caster.dimension == 100) rainWorld = DimensionManager.getWorld(0);
+		if (rainWorld.getWorldInfo().isThundering()){
 			if (!world.isRemote){
 				int xzradius = 50;
 				int random = world.rand.nextInt(100);
@@ -66,6 +60,9 @@ public class Storm implements ISpellComponent{
 					world.addWeatherEffect(bolt);
 				}else if (random < 80){
 					List<Entity> entities = world.getEntitiesWithinAABB(IMob.class, caster.boundingBox.expand(xzradius, 10D, xzradius));
+					List<Entity> playerList = world.getEntitiesWithinAABB(EntityPlayer.class, caster.boundingBox.expand(xzradius, 10D, xzradius));
+					if (playerList.contains(caster)) playerList.remove(caster);
+					entities.addAll(playerList);
 					if (entities.size() <= 0){
 						return;
 					}
@@ -80,7 +77,10 @@ public class Storm implements ISpellComponent{
 				}
 			}
 		}else if (!world.isRemote) {
-			if (!AMCore.config.getRainOnlyOverworld() && AMCore.foundLotRMod && caster.dimension == 100) DimensionManager.getWorld(0).getWorldInfo().setRaining(true);
+			if (!rainWorld.getWorldInfo().isRaining()) {
+				if (!rainWorld.getWorldInfo().isThundering() && world.rand.nextBoolean()) rainWorld.getWorldInfo().setThundering(true);
+				rainWorld.getWorldInfo().setRaining(true);
+			}
 		}
 	}
 

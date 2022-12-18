@@ -38,6 +38,7 @@ public class BanishRain implements ISpellComponent, IRitualInteraction{
 		if (!world.isRaining()) return false;
 		world.getWorldInfo().setRainTime(24000);
 		world.getWorldInfo().setRaining(false);
+		world.getWorldInfo().setThundering(false);
 		return true;
 	}
 	
