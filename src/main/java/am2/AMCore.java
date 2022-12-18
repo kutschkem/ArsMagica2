@@ -66,6 +66,8 @@ public class AMCore{
 	public static final int ANY_META = 32767;
 	
 	public static boolean foundLotRMod = false;
+	
+	public static String[] lastSpellLog;
 
 	private String compendiumBase;
 

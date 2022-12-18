@@ -104,6 +104,7 @@ public class AMConfig extends Configuration{
 	private final String KEY_SunstoneFreq = "SunstoneFrequency";
 	
 	private final String KEY_RainOnlyOverworld = "RainOnlyOverworld";
+	private final String KEY_SpellDebug = "SpellDebug";
 	
 	/**
 	 * Beta Particles
@@ -284,6 +285,7 @@ public class AMConfig extends Configuration{
 	private int sunstoneFrequency;
 	
 	private boolean rainOnlyOverworld;
+	private boolean spellDebug;
 
 	public static final String DEFAULT_LANGUAGE = "en_US";
 
@@ -408,6 +410,7 @@ public class AMConfig extends Configuration{
 		sunstoneFrequency = get(CATEGORY_GENERAL, KEY_SunstoneFreq, 20, "The number of sunstone veins generated per chunk.").getInt(20);
 		
 		rainOnlyOverworld = get(CATEGORY_GENERAL, KEY_RainOnlyOverworld, true, "This will change the storm and the banishRain component, that they will always change the overworld time. (needed in most dims)").getBoolean(true);
+		spellDebug = get(CATEGORY_GENERAL, KEY_SpellDebug, true, "This will allow operators to get every information needed, once a spell is casted.").getBoolean(true);
 		
 		enderAffinityAbilityCooldown = get(CATEGORY_GENERAL, KEY_EnderAffinityAbilityCooldown, 100, "Set this to the number of ticks between ender affinity teleports.").getInt();
 
@@ -817,7 +820,11 @@ public class AMConfig extends Configuration{
 	}
 	
 	public boolean getRainOnlyOverworld() {
-		return rainOnlyOverworld;
+		return this.rainOnlyOverworld;
+	}
+	
+	public boolean getSpellDebug() {
+		return this.spellDebug;
 	}
 
 	//====================================================================================
