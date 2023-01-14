@@ -37,10 +37,7 @@ public class Storm implements ISpellComponent{
 	}
 
 	private void applyEffect(EntityLivingBase caster, World world){
-		World rainWorld = world;
-		if (AMCore.config.getRainOnlyOverworld()) rainWorld = DimensionManager.getWorld(0);
-		else if (!DimensionManager.getWorld(0).isRemote && AMCore.foundLotRMod && caster.dimension == 100) rainWorld = DimensionManager.getWorld(0);
-		if (rainWorld.getWorldInfo().isThundering()){
+		if (world.getWorldInfo().isThundering()){
 			if (!world.isRemote){
 				int xzradius = 50;
 				int random = world.rand.nextInt(100);
@@ -77,9 +74,9 @@ public class Storm implements ISpellComponent{
 				}
 			}
 		}else if (!world.isRemote) {
-			if (!rainWorld.getWorldInfo().isRaining()) {
-				if (!rainWorld.getWorldInfo().isThundering() && world.rand.nextBoolean()) rainWorld.getWorldInfo().setThundering(true);
-				rainWorld.getWorldInfo().setRaining(true);
+			if (!world.getWorldInfo().isRaining()) {
+				if (!world.getWorldInfo().isThundering() && world.rand.nextBoolean()) world.getWorldInfo().setThundering(true);
+				world.getWorldInfo().setRaining(true);
 			}
 		}
 	}

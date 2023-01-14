@@ -23,18 +23,12 @@ import net.minecraftforge.common.DimensionManager;
 public class BanishRain implements ISpellComponent, IRitualInteraction{
 	
 	public boolean callRain(World world, EntityLivingBase caster) {
-		if (AMCore.config.getRainOnlyOverworld()) world = DimensionManager.getWorld(0);
-		else if (AMCore.foundLotRMod && caster.dimension == 100) world = DimensionManager.getWorld(0);
-		
 		world.getWorldInfo().setRainTime(0);
 		world.getWorldInfo().setRaining(true);
 		return true;
 	}
 	
 	public boolean banishRain(World world, EntityLivingBase caster) {
-		if (AMCore.config.getRainOnlyOverworld()) world = DimensionManager.getWorld(0);
-		else if (AMCore.foundLotRMod && caster.dimension == 100) world = DimensionManager.getWorld(0);
-		
 		if (!world.isRaining()) return false;
 		world.getWorldInfo().setRainTime(24000);
 		world.getWorldInfo().setRaining(false);
