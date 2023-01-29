@@ -103,7 +103,7 @@ public class AMConfig extends Configuration{
 	private final String KEY_SunstoneVein = "SunstoneVeinSize";
 	private final String KEY_SunstoneFreq = "SunstoneFrequency";
 	
-	private final String KEY_SpellDebug = "SpellDebug";	
+	private final String KEY_AllowDamageModifier = "AllowDamageModifier";	
 	
 	/**
 	 * Beta Particles
@@ -283,7 +283,7 @@ public class AMConfig extends Configuration{
 	private int sunstoneVeinSize;
 	private int sunstoneFrequency;
 	
-	private boolean spellDebug;
+	private boolean allowDamageModifier;
 
 	public static final String DEFAULT_LANGUAGE = "en_US";
 
@@ -407,7 +407,7 @@ public class AMConfig extends Configuration{
 		sunstoneVeinSize = get(CATEGORY_GENERAL, KEY_SunstoneVein, 3, "The number of blocks in a vein of sunstone.").getInt(3);
 		sunstoneFrequency = get(CATEGORY_GENERAL, KEY_SunstoneFreq, 20, "The number of sunstone veins generated per chunk.").getInt(20);
 		
-		spellDebug = get(CATEGORY_GENERAL, KEY_SpellDebug, true, "This will allow operators to get every information needed, once a spell is casted.").getBoolean(true);
+		allowDamageModifier = get(CATEGORY_GENERAL, KEY_AllowDamageModifier, true, "This will allow players to cast damage modifer (like Damage, Lunar, Solar) on other players").getBoolean(true);
 		
 		enderAffinityAbilityCooldown = get(CATEGORY_GENERAL, KEY_EnderAffinityAbilityCooldown, 100, "Set this to the number of ticks between ender affinity teleports.").getInt();
 
@@ -816,8 +816,8 @@ public class AMConfig extends Configuration{
 		return this.sunstoneFrequency;
 	}
 	
-	public boolean getSpellDebug() {
-		return this.spellDebug;
+	public boolean getAllowDamageModifer() {
+		return this.allowDamageModifier;
 	}
 
 	//====================================================================================

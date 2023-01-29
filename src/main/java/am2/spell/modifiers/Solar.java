@@ -1,10 +1,12 @@
 package am2.spell.modifiers;
 
+import am2.AMCore;
 import am2.api.spell.component.interfaces.ISpellModifier;
 import am2.api.spell.enums.SpellModifiers;
 import am2.items.ItemsCommonProxy;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -26,6 +28,7 @@ public class Solar implements ISpellModifier{
 	@SuppressWarnings("incomplete-switch")
 	@Override
 	public float getModifier(SpellModifiers type, EntityLivingBase caster, Entity target, World world, byte[] metadata){
+		if (AMCore.config.getAllowDamageModifer() && target instanceof EntityPlayer) return 1.0f;
 		switch (type){
 		case RANGE:
 			return modifyValueOnInverseLunarCycle(world, 3f);
