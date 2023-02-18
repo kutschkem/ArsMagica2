@@ -17,6 +17,28 @@ public class AMEnchantmentHelper implements IAMEnchantmentHelper{
 	public int getMagicResistID(){
 		return AMEnchantments.magicResist.effectId;
 	}
+	
+	public static ItemStack smiteStack(ItemStack stack, int level){
+		Map map = EnchantmentHelper.getEnchantments(stack);
+		if (level > 0){
+			map.put(Enchantment.smite.effectId, level);
+		}else{
+			map.remove(Enchantment.smite.effectId);
+		}
+		EnchantmentHelper.setEnchantments(map, stack);
+		return stack;
+	}
+	
+	public static ItemStack baneoaStack(ItemStack stack, int level){
+		Map map = EnchantmentHelper.getEnchantments(stack);
+		if (level > 0){
+			map.put(Enchantment.baneOfArthropods, level);
+		}else{
+			map.remove(Enchantment.baneOfArthropods.effectId);
+		}
+		EnchantmentHelper.setEnchantments(map, stack);
+		return stack;
+	}
 
 	public static ItemStack soulbindStack(ItemStack stack){
 		Map map = EnchantmentHelper.getEnchantments(stack);

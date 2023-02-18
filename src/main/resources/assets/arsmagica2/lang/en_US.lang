@@ -32,6 +32,7 @@ item.arsmagica2:bindingCatalystHoe.name=: Hoe
 item.arsmagica2:bindingCatalystPick.name=: Pickaxe
 item.arsmagica2:bindingCatalystShovel.name=: Shovel
 item.arsmagica2:bindingCatalystSword.name=: Sword
+item.arsmagica2:bindingCatalystBow.name=: Bow
 item.arsmagica2:blackRune.name=Black Rune
 item.arsmagica2:blankRune.name=Blank Rune
 item.arsmagica2:blueRune.name=Blue Rune
@@ -44,6 +45,7 @@ item.arsmagica2:bound_hoe.name=Bound Hoe
 item.arsmagica2:bound_pickaxe.name=Bound Pickaxe
 item.arsmagica2:bound_shovel.name=Bound Shovel
 item.arsmagica2:bound_sword.name=Bound Sword
+item.arsmagica2:bound_bow.name=Bound Bow
 item.arsmagica2:brownRune.name=Brown Rune
 item.arsmagica2:chargefocus.name=Charge Focus
 item.arsmagica2:chest_archmage.name=Archmage Robes
@@ -296,6 +298,9 @@ am2.spell.zone=Zone
 
 am2.spell.mysticalintervention=Mystical Intervention
 am2.spell.electricity=Electricity
+am2.spell.locate=Locate
+am2.spell.search=Search
+am2.spell.remote=Remote
 
 am2.spell.appropriation=Appropriation
 am2.spell.blizzard=Blizzard

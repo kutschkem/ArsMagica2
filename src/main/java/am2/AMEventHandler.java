@@ -18,6 +18,7 @@ import am2.entities.EntityFlicker;
 import am2.items.ItemsCommonProxy;
 import am2.network.AMNetHandler;
 import am2.playerextensions.AffinityData;
+import am2.playerextensions.BoundPlayer;
 import am2.playerextensions.ExtendedProperties;
 import am2.playerextensions.RiftStorage;
 import am2.playerextensions.SkillData;
@@ -129,6 +130,7 @@ public class AMEventHandler{
 
 			if (event.entity instanceof EntityPlayer){
 				event.entity.registerExtendedProperties(RiftStorage.identifier, new RiftStorage());
+				event.entity.registerExtendedProperties(BoundPlayer.identifier, new BoundPlayer());
 				event.entity.registerExtendedProperties(AffinityData.identifier, new AffinityData());
 				event.entity.registerExtendedProperties(SkillData.identifier, new SkillData((EntityPlayer)event.entity));
 			}

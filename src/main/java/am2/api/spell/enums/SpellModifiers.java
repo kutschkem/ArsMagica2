@@ -19,7 +19,8 @@ public enum SpellModifiers{
 	SILKTOUCH_LEVEL(1),
 	DISMEMBERING_LEVEL(1),
 	BUFF_POWER(1),
-	HOMING(0);
+	HOMING(0),
+	SMITE(4.0D);
 
 	public double defaultValue = 0D;
 	public int defaultValueInt = 0;

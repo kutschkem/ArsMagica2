@@ -181,6 +181,7 @@ public class SkillManager implements ISpellPartManager{
 		registerSkillTreeEntry(new Chain(), "Chain");
 		registerSkillTreeEntry(new Channel(), "Channel");
 		registerSkillTreeEntry(new Projectile(), "Projectile");
+		registerSkillTreeEntry(new Remote(), "Remote");
 		registerSkillTreeEntry(new Rune(), "Rune");
 		registerSkillTreeEntry(new Self(), "Self");
 		registerSkillTreeEntry(new Summon(), "Summon");
@@ -230,6 +231,7 @@ public class SkillManager implements ISpellPartManager{
 		registerSkillTreeEntry(new LifeTap(), "LifeTap");
 		registerSkillTreeEntry(new Light(), "Light");
 		registerSkillTreeEntry(new LightningDamage(), "LightningDamage");
+		registerSkillTreeEntry(new Locate(), "Locate");
 		registerSkillTreeEntry(new MagicDamage(), "MagicDamage");
 		registerSkillTreeEntry(new ManaDrain(), "ManaDrain");
 		registerSkillTreeEntry(new Mark(), "Mark");
@@ -243,6 +245,7 @@ public class SkillManager implements ISpellPartManager{
 		registerSkillTreeEntry(new Regeneration(), "Regeneration");
 		registerSkillTreeEntry(new Repel(), "Repel");
 		registerSkillTreeEntry(new Rift(), "Rift");
+		registerSkillTreeEntry(new Search(), "Search");
 		registerSkillTreeEntry(new Shield(), "Shield");
 		registerSkillTreeEntry(new Slow(), "Slow");
 		registerSkillTreeEntry(new Slowfall(), "Slowfall");
@@ -295,6 +298,7 @@ public class SkillManager implements ISpellPartManager{
 		registerSkillTreeEntry(new BuffPower(), "BuffPower");
 		registerSkillTreeEntry(new Dismembering(), "Dismembering");
 		registerSkillTreeEntry(new FeatherTouch(), "FeatherTouch");
+		registerSkillTreeEntry(new Pesticide(), "Pesticide");
 
 		//Skills
 		registerSkillTreeEntry(new AffinityGainsBoost(), "AffinityGains");

@@ -173,6 +173,8 @@ public class SkillTreeManager implements ISkillTreeManager{
 		RegisterPart(SkillManager.instance.getSkill("FallingStar"), 75, 90, SkillTrees.Offense, SkillPointTypes.SILVER);
 		RegisterPart(SkillManager.instance.getSkill("FireRain"), 75, 135, SkillTrees.Offense, SkillPointTypes.SILVER);
 		RegisterPart(SkillManager.instance.getSkill("Dismembering"), 75, 180, SkillTrees.Offense, SkillPointTypes.SILVER);
+		
+		RegisterPart(SkillManager.instance.getSkill("Pesticide"), 0, 0, SkillTrees.Offense, SkillPointTypes.GREEN);
 
 		//defense tree
 		defenseTree.clear();
@@ -230,6 +232,10 @@ public class SkillTreeManager implements ISkillTreeManager{
 		RegisterPart(SkillManager.instance.getSkill("ManaLink"), 30, 45, SkillTrees.Defense, SkillPointTypes.SILVER);
 		RegisterPart(SkillManager.instance.getSkill("ManaShield"), 30, 90, SkillTrees.Defense, SkillPointTypes.SILVER);
 		RegisterPart(SkillManager.instance.getSkill("BuffPower"), 30, 135, SkillTrees.Defense, SkillPointTypes.SILVER);
+		
+		RegisterPart(SkillManager.instance.getSkill("Locate"), 30, 180, SkillTrees.Defense, SkillPointTypes.SILVER);
+		RegisterPart(SkillManager.instance.getSkill("Search"), 30, 225, SkillTrees.Defense, SkillPointTypes.SILVER);
+		RegisterPart(SkillManager.instance.getSkill("Remote"), 30, 270, SkillTrees.Defense, SkillPointTypes.SILVER);
 
 		//utility tree
 		utilityTree.clear();

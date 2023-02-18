@@ -26,8 +26,11 @@ import am2.power.PowerNodeRegistry;
 import am2.spell.SkillManager;
 import am2.spell.SpellRecipeManager;
 import am2.spell.SpellUtils;
+import am2.spell.components.Locate;
+import am2.spell.components.Search;
 import am2.spell.components.Summon;
 import am2.spell.shapes.Binding;
+import am2.spell.shapes.Remote;
 import am2.utility.KeyValuePair;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -70,6 +73,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 
 	private ItemStack addedPhylactery = null;
 	private ItemStack addedBindingCatalyst = null;
+	private ItemStack addedNameTag = null;
 
 	private int[] spellGuide;
 	private int[] outputCombo;
@@ -664,6 +668,8 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 			handleSummonShape();
 		if (part instanceof Binding)
 			handleBindingShape();
+		if (part instanceof Locate)
+			handleNameTags();
 
 		byte[] metaData = new byte[0];
 		if (part instanceof ISpellModifier){
@@ -702,6 +708,11 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	private void handleBindingShape(){
 		if (currentAddedItems.size() == 7)
 			addedBindingCatalyst = currentAddedItems.get(currentAddedItems.size() - 1);
+	}
+	
+	private void handleNameTags() {
+		if (currentAddedItems.size() > 2)
+			addedNameTag = currentAddedItems.get(currentAddedItems.size() - 1);
 	}
 
 	private List<EntityItem> lookForValidItems(){
@@ -841,8 +852,13 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 			Binding binding = (Binding)SkillManager.instance.getSkill("Binding");
 			binding.setBindingType(craftStack, addedBindingCatalyst);
 		}
-
-
+		
+		if (addedNameTag != null) {
+			Locate locate = (Locate)SkillManager.instance.getSkill("Locate");
+			locate.setSearcher(craftStack, addedNameTag);
+			Remote remote = (Remote)SkillManager.instance.getSkill("Remote");
+			remote.setRemoteTarget(craftStack, addedNameTag);
+		}
 	}
 
 	private void setCrafting(boolean crafting){
@@ -946,6 +962,12 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 			addedBindingCatalyst.writeToNBT(catalyst);
 			altarCompound.setTag("catalyst", catalyst);
 		}
+		
+		if (addedNameTag != null){
+			NBTTagCompound name_tag = new NBTTagCompound();
+			addedNameTag.writeToNBT(name_tag);
+			altarCompound.setTag("name_tag", name_tag);
+		}
 
 		NBTTagList shapeGroupData = new NBTTagList();
 		for (ArrayList<KeyValuePair<ISpellPart, byte[]>> list : shapeGroups){
@@ -1014,6 +1036,12 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 			NBTTagCompound catalyst = altarCompound.getCompoundTag("catalyst");
 			if (catalyst != null)
 				this.addedBindingCatalyst = ItemStack.loadItemStackFromNBT(catalyst);
+		}
+		
+		if (altarCompound.hasKey("name_tag")){
+			NBTTagCompound name_tag = altarCompound.getCompoundTag("name_tag");
+			if (name_tag != null)
+				this.addedNameTag = ItemStack.loadItemStackFromNBT(name_tag);
 		}
 
 		this.allAddedItems.clear();
