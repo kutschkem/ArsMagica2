@@ -494,14 +494,18 @@ public class SpellUtils implements ISpellUtils{
 		ItemStack constructed = constructSpellStack(stack);
 		int looting = 0;
 		int silkTouch = 0;
+		int smite = 0;
 		for (int i = 0; i < SpellUtils.instance.numStages(constructed); ++i){
 			looting += SpellUtils.instance.countModifiers(SpellModifiers.FORTUNE_LEVEL, constructed, i);
 			silkTouch += SpellUtils.instance.countModifiers(SpellModifiers.SILKTOUCH_LEVEL, constructed, i);
+			smite += SpellUtils.instance.countModifiers(SpellModifiers.SMITE, constructed, i);
 		}
 
 		AMEnchantmentHelper.fortuneStack(stack, looting);
 		AMEnchantmentHelper.lootingStack(stack, looting);
 		AMEnchantmentHelper.silkTouchStack(stack, silkTouch);
+		AMEnchantmentHelper.smiteStack(stack, smite);
+		AMEnchantmentHelper.baneoaStack(stack, smite);
 	}
 
 	public void addShapeGroup(int[] shapeGroupParts, byte[][] metaDatas, ItemStack stack){
@@ -1008,15 +1012,19 @@ public class SpellUtils implements ISpellUtils{
 
 		int silkTouchLevel = 0;
 		int fortuneLevel = 0;
+		int smiteLevel = 0;
 
 		for (int i = 0; i < numStages(checkStack); ++i){
 			int st = countModifiers(SpellModifiers.SILKTOUCH_LEVEL, checkStack, 0);
 			int fn = countModifiers(SpellModifiers.FORTUNE_LEVEL, checkStack, 0);
+			int sm = countModifiers(SpellModifiers.SMITE, checkStack, 0);
 
 			if (st > silkTouchLevel)
 				silkTouchLevel = st;
 			if (fn > fortuneLevel)
 				fortuneLevel = fn;
+			if (sm > smiteLevel)
+				smiteLevel = sm;
 		}
 
 		if (fortuneLevel > 0){
@@ -1025,6 +1033,9 @@ public class SpellUtils implements ISpellUtils{
 		}
 		if (silkTouchLevel > 0)
 			AMEnchantmentHelper.silkTouchStack(stack, silkTouchLevel);
+		if (smiteLevel > 0)
+		AMEnchantmentHelper.smiteStack(checkStack, smiteLevel);
+		AMEnchantmentHelper.baneoaStack(checkStack, smiteLevel);
 
 		return stack;
 	}

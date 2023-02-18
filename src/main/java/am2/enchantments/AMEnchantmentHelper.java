@@ -32,7 +32,7 @@ public class AMEnchantmentHelper implements IAMEnchantmentHelper{
 	public static ItemStack baneoaStack(ItemStack stack, int level){
 		Map map = EnchantmentHelper.getEnchantments(stack);
 		if (level > 0){
-			map.put(Enchantment.baneOfArthropods, level);
+			map.put(Enchantment.baneOfArthropods.effectId, level);
 		}else{
 			map.remove(Enchantment.baneOfArthropods.effectId);
 		}
