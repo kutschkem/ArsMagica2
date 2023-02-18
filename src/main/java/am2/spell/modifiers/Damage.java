@@ -9,6 +9,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -35,7 +36,7 @@ public class Damage implements ISpellModifier{
 		return new Object[]{
 				new ItemStack(ItemsCommonProxy.essence, 1, ItemsCommonProxy.essence.META_ENDER),
 				Items.iron_sword,
-				"P:!0 & !1 & 2 & 3" //harming potion
+				Items.potionitem.setPotionEffect(Potion.harm.getName())
 		};
 	}
 
