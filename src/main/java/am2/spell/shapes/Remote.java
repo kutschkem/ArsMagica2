@@ -25,9 +25,10 @@ public class Remote implements ISpellShape{
 	@Override
 	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, int side, boolean giveXP, int useCount){
 		String targetPlayerName = (String)(BoundPlayer.For(caster).getData())[0];
+		if (targetPlayerName == null) return null;
 		EntityPlayer targetPlayer = MinecraftServer.getServer().getConfigurationManager().func_152612_a(targetPlayerName);
-		if (targetPlayer == null || (caster.dimension != targetPlayer.dimension)) return null;
-		
+		if (targetPlayer == null) return null;
+
 		SpellCastResult result = SpellHelper.instance.applyStageToEntity(stack, caster, world, targetPlayer, 0, giveXP);
 		if (result != SpellCastResult.SUCCESS){
 			return result;

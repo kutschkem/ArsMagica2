@@ -61,9 +61,7 @@ public class SpellUnlockManager{
 		entries.add(new UnlockEntry(SkillManager.instance.getSkill("Moonrise"), SkillManager.instance.getSkill("NightVision"), SkillManager.instance.getSkill("EnderIntervention"), SkillManager.instance.getSkill("Lunar")));
 		entries.add(new UnlockEntry(SkillManager.instance.getSkill("Prosperity"), SkillManager.instance.getSkill("Dig"), SkillManager.instance.getSkill("FeatherTouch"), SkillManager.instance.getSkill("MiningPower")));
 		
-		entries.add(new UnlockEntry(SkillManager.instance.getSkill("Locate"), SkillManager.instance.getSkill("Channel"), SkillManager.instance.getSkill("Mark")));
-		entries.add(new UnlockEntry(SkillManager.instance.getSkill("Search"), SkillManager.instance.getSkill("Channel"), SkillManager.instance.getSkill("Recall")));
-		entries.add(new UnlockEntry(SkillManager.instance.getSkill("Remote"), SkillManager.instance.getSkill("Channel"), SkillManager.instance.getSkill("Recall"), SkillManager.instance.getSkill("PhysicalDamage")));
+		entries.add(new UnlockEntry(SkillManager.instance.getSkill("Locate"), SkillManager.instance.getSkill("Self"), SkillManager.instance.getSkill("Mark"), SkillManager.instance.getSkill("Recall"), SkillManager.instance.getSkill("Invisibility")));
 		
 		if (AMCore.foundLotRMod) entries.add(new UnlockEntry(SkillManager.instance.getSkill("MysticalIntervention"), SkillManager.instance.getSkill("DivineIntervention"), SkillManager.instance.getSkill("EnderIntervention")));
 	}

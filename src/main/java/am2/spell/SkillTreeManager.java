@@ -232,10 +232,6 @@ public class SkillTreeManager implements ISkillTreeManager{
 		RegisterPart(SkillManager.instance.getSkill("ManaLink"), 30, 45, SkillTrees.Defense, SkillPointTypes.SILVER);
 		RegisterPart(SkillManager.instance.getSkill("ManaShield"), 30, 90, SkillTrees.Defense, SkillPointTypes.SILVER);
 		RegisterPart(SkillManager.instance.getSkill("BuffPower"), 30, 135, SkillTrees.Defense, SkillPointTypes.SILVER);
-		
-		RegisterPart(SkillManager.instance.getSkill("Locate"), 30, 180, SkillTrees.Defense, SkillPointTypes.SILVER);
-		RegisterPart(SkillManager.instance.getSkill("Search"), 30, 225, SkillTrees.Defense, SkillPointTypes.SILVER);
-		RegisterPart(SkillManager.instance.getSkill("Remote"), 30, 270, SkillTrees.Defense, SkillPointTypes.SILVER);
 
 		//utility tree
 		utilityTree.clear();
@@ -314,6 +310,10 @@ public class SkillTreeManager implements ISkillTreeManager{
 
 		RegisterPart(SkillManager.instance.getSkill("MageBandI"), 320, 120, SkillTrees.Talents, SkillPointTypes.GREEN, SkillManager.instance.getSkill("ManaRegenI"));
 		RegisterPart(SkillManager.instance.getSkill("MageBandII"), 320, 165, SkillTrees.Talents, SkillPointTypes.RED, SkillManager.instance.getSkill("MageBandI"));
+
+		RegisterPart(SkillManager.instance.getSkill("Locate"), 185, 75, SkillTrees.Talents, SkillPointTypes.SILVER);
+		RegisterPart(SkillManager.instance.getSkill("Search"), 185, 120, SkillTrees.Talents, SkillPointTypes.RED, SkillManager.instance.getSkill("Locate"));
+		RegisterPart(SkillManager.instance.getSkill("Remote"), 185, 165, SkillTrees.Talents, SkillPointTypes.RED, SkillManager.instance.getSkill("Search"));
 
 		calculateHighestOverallTier();
 

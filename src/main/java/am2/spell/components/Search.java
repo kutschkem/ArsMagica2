@@ -74,9 +74,10 @@ public class Search implements ISpellComponent {
 	@Override
 	public Object[] getRecipeItems(){
 		return new Object[]{
+				Items.clock,
+				Items.map,
 				Items.compass,
 				Items.ender_eye,
-				Items.filled_map,
 				Items.arrow
 		};
 	}
