@@ -97,8 +97,4 @@ public class Remote implements ISpellShape{
 			return "arsmagica2:spell.cast.none";
 		}
 	}
-	
-	public void setRemoteTarget(ItemStack stack, ItemStack nametagStack){
-		SpellUtils.instance.setSpellMetadata(stack, "RemoteTarget", nametagStack.getDisplayName());
-	}
 }
