@@ -28,14 +28,14 @@ public class Lunar implements ISpellModifier{
 	@SuppressWarnings("incomplete-switch")
 	@Override
 	public float getModifier(SpellModifiers type, EntityLivingBase caster, Entity target, World world, byte[] metadata){
-		if (AMCore.config.getAllowDamageModifer() && target instanceof EntityPlayer) return 1.0f;
 		switch (type){
 		case RANGE:
 			return modifyValueOnLunarCycle(world, 3f);
 		case RADIUS:
 			return modifyValueOnLunarCycle(world, 3);
 		case DAMAGE:
-			return modifyValueOnTime(world, 2.4f);
+			if (AMCore.config.getAllowDamageModifer() && target instanceof EntityPlayer) return 1.0f;
+			else return modifyValueOnTime(world, 2.4f);
 		case DURATION:
 			return modifyValueOnTime(world, 5f);
 		case HEALING:
