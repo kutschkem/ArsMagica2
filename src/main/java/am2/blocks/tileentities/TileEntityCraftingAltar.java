@@ -1,5 +1,9 @@
 package am2.blocks.tileentities;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import am2.AMCore;
 import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.blocks.MultiblockStructureDefinition.BlockCoord;
@@ -26,11 +30,11 @@ import am2.power.PowerNodeRegistry;
 import am2.spell.SkillManager;
 import am2.spell.SpellRecipeManager;
 import am2.spell.SpellUtils;
+import am2.spell.components.Chat;
 import am2.spell.components.Locate;
-import am2.spell.components.Search;
+import am2.spell.components.Sounds;
 import am2.spell.components.Summon;
 import am2.spell.shapes.Binding;
-import am2.spell.shapes.Remote;
 import am2.utility.KeyValuePair;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -46,10 +50,6 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.Constants;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class TileEntityCraftingAltar extends TileEntityAMPower implements IMultiblockStructureController{
 
@@ -74,6 +74,8 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	private ItemStack addedPhylactery = null;
 	private ItemStack addedBindingCatalyst = null;
 	private ItemStack addedNameTag = null;
+	private ItemStack addedSign = null;
+	private ItemStack addedNoteblock = null;
 
 	private int[] spellGuide;
 	private int[] outputCombo;
@@ -670,6 +672,10 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 			handleBindingShape();
 		if (part instanceof Locate)
 			handleNameTags();
+		if (part instanceof Chat)
+			handleSigns();
+		if (part instanceof Sounds)
+			handleNoteblocks();
 
 		byte[] metaData = new byte[0];
 		if (part instanceof ISpellModifier){
@@ -713,6 +719,16 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	private void handleNameTags() {
 		if (currentAddedItems.size() > 2)
 			addedNameTag = currentAddedItems.get(currentAddedItems.size() - 1);
+	}
+	
+	private void handleSigns() {
+		if (currentAddedItems.size() > 1)
+			addedSign = currentAddedItems.get(currentAddedItems.size() - 2);
+	}
+	
+	private void handleNoteblocks() {
+		if (currentAddedItems.size() > 1)
+			addedNoteblock = currentAddedItems.get(currentAddedItems.size() - 2);
 	}
 
 	private List<EntityItem> lookForValidItems(){
@@ -856,8 +872,14 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		if (addedNameTag != null) {
 			Locate locate = (Locate)SkillManager.instance.getSkill("Locate");
 			locate.setSearcher(craftStack, addedNameTag);
-			Remote remote = (Remote)SkillManager.instance.getSkill("Remote");
-			remote.setRemoteTarget(craftStack, addedNameTag);
+		}
+		if (addedSign != null) {
+			Chat chat = (Chat)SkillManager.instance.getSkill("Chat");
+			chat.setMessage(craftStack, addedSign);
+		}
+		if (addedNoteblock != null) {
+			Sounds sounds = (Sounds)SkillManager.instance.getSkill("Sounds");
+			sounds.setSound(craftStack, addedNoteblock);
 		}
 	}
 
@@ -968,6 +990,18 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 			addedNameTag.writeToNBT(name_tag);
 			altarCompound.setTag("name_tag", name_tag);
 		}
+		
+		if (addedSign != null){
+			NBTTagCompound sign = new NBTTagCompound();
+			addedNameTag.writeToNBT(sign);
+			altarCompound.setTag("sign", sign);
+		}
+		
+		if (addedNoteblock != null){
+			NBTTagCompound noteblock = new NBTTagCompound();
+			addedNameTag.writeToNBT(noteblock);
+			altarCompound.setTag("noteblock", noteblock);
+		}
 
 		NBTTagList shapeGroupData = new NBTTagList();
 		for (ArrayList<KeyValuePair<ISpellPart, byte[]>> list : shapeGroups){
@@ -1042,6 +1076,18 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 			NBTTagCompound name_tag = altarCompound.getCompoundTag("name_tag");
 			if (name_tag != null)
 				this.addedNameTag = ItemStack.loadItemStackFromNBT(name_tag);
+		}
+		
+		if (altarCompound.hasKey("sign")){
+			NBTTagCompound sign = altarCompound.getCompoundTag("sign");
+			if (sign != null)
+				this.addedSign = ItemStack.loadItemStackFromNBT(sign);
+		}
+			
+		if (altarCompound.hasKey("noteblock")){
+			NBTTagCompound noteblock = altarCompound.getCompoundTag("noteblock");
+			if (noteblock != null)
+				this.addedNoteblock = ItemStack.loadItemStackFromNBT(noteblock);
 		}
 
 		this.allAddedItems.clear();

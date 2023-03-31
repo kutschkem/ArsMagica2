@@ -9,6 +9,8 @@ import am2.playerextensions.SkillData;
 import am2.spell.SkillManager;
 import am2.spell.SkillTreeManager;
 import am2.spell.SpellValidator.ValidationResult;
+import am2.spell.components.Chat;
+import am2.spell.components.Sounds;
 import am2.texture.ResourceManager;
 import am2.texture.SpellIconManager;
 import net.minecraft.client.Minecraft;
@@ -509,7 +511,7 @@ public class GuiInscriptionTable extends GuiContainer{
 			int index = ((ContainerInscriptionTable)this.inventorySlots).getCurrentRecipeSize() - 1;
 			while (index >= 0 && !(((ContainerInscriptionTable)this.inventorySlots).getRecipeItemAt(index) instanceof ISpellShape)){
 				ISpellPart curPart = ((ContainerInscriptionTable)this.inventorySlots).getRecipeItemAt(index--);
-				if (curPart instanceof ISpellComponent && curPart.getID() == part.getID()){
+				if (curPart instanceof ISpellComponent && curPart.getID() == part.getID() && !(curPart instanceof Chat) && !(curPart instanceof Sounds)){
 					return false;
 				}
 			}

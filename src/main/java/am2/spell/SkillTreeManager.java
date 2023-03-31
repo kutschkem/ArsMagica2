@@ -314,6 +314,8 @@ public class SkillTreeManager implements ISkillTreeManager{
 		RegisterPart(SkillManager.instance.getSkill("Locate"), 185, 75, SkillTrees.Talents, SkillPointTypes.SILVER);
 		RegisterPart(SkillManager.instance.getSkill("Search"), 185, 120, SkillTrees.Talents, SkillPointTypes.RED, SkillManager.instance.getSkill("Locate"));
 		RegisterPart(SkillManager.instance.getSkill("Remote"), 185, 165, SkillTrees.Talents, SkillPointTypes.RED, SkillManager.instance.getSkill("Search"));
+		RegisterPart(SkillManager.instance.getSkill("Chat"), 275, 75, SkillTrees.Talents, SkillPointTypes.GREEN, SkillManager.instance.getSkill("Colour"));
+		RegisterPart(SkillManager.instance.getSkill("Sounds"), 320, 75, SkillTrees.Talents, SkillPointTypes.RED, SkillManager.instance.getSkill("Chat"));
 
 		calculateHighestOverallTier();
 
