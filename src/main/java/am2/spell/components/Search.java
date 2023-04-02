@@ -12,6 +12,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
@@ -28,18 +29,14 @@ public class Search implements ISpellComponent {
 	}
 	
 	public boolean applyEffect(ItemStack stack, EntityLivingBase caster) {
-		BoundPlayer boundPlayerData = BoundPlayer.For(caster);
-		Object[] boundPlayerDataObject = boundPlayerData.getData();
-		
-		if (caster instanceof EntityPlayer && (boundPlayerDataObject[0] != null)) {
-			((EntityPlayer)caster).addChatMessage(new ChatComponentText("Name: " + boundPlayerDataObject[0]));
-			((EntityPlayer)caster).addChatMessage(new ChatComponentText("Dimension: " + boundPlayerDataObject[1]));
-			((EntityPlayer)caster).addChatMessage(new ChatComponentText("X: " + boundPlayerDataObject[2]));
-			((EntityPlayer)caster).addChatMessage(new ChatComponentText("Y: " + boundPlayerDataObject[3]));
-			((EntityPlayer)caster).addChatMessage(new ChatComponentText("Z: " + boundPlayerDataObject[4]));
+		EntityPlayer boundPlayer = MinecraftServer.getServer().getConfigurationManager().func_152612_a(BoundPlayer.For(caster).getBoundPlayer());
+				
+		if (caster instanceof EntityPlayer && (boundPlayer != null)) {
+				((EntityPlayer)caster).addChatMessage(new ChatComponentText("Name: " + boundPlayer.getDisplayName()));
+				((EntityPlayer)caster).addChatMessage(new ChatComponentText("Dimension: " + boundPlayer.dimension));
+				return true;
 		}
-		
-		return true;
+		return false;
 	}
 
 	@Override

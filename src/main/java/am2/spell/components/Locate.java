@@ -3,7 +3,6 @@ package am2.spell.components;
 import java.util.EnumSet;
 import java.util.Random;
 
-import am2.AMCore;
 import am2.api.ArsMagicaApi;
 import am2.api.spell.component.interfaces.ISpellComponent;
 import am2.api.spell.enums.Affinity;
@@ -20,28 +19,25 @@ import net.minecraft.world.World;
 public class Locate implements ISpellComponent {
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-		return applyEffect(stack, caster);
+		return applyEffect(stack, world, caster);
 	}
 
 	@Override
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target) {
-		return applyEffect(stack, caster);
+		return applyEffect(stack, world, caster);
 	}
 	
-	public boolean applyEffect(ItemStack stack, EntityLivingBase caster) {
+	public boolean applyEffect(ItemStack stack, World world, EntityLivingBase caster) {
 		String searcherName = SpellUtils.instance.getSpellMetadata(stack, "Searcher");
-		EntityPlayer searcher = MinecraftServer.getServer().getConfigurationManager().func_152612_a(searcherName);
-		if (searcher == null) return false;
+		if (!world.isRemote){
+			EntityPlayer searcher = MinecraftServer.getServer().getConfigurationManager().func_152612_a(searcherName);
+			if (searcher == null) return false;
+
+			String casterName = null;
+			if (caster instanceof EntityPlayer) casterName = ((EntityPlayer)caster).getCommandSenderName();
 		
-		double posX = caster.posX;
-		double posY = caster.posY;
-		double posZ = caster.posZ;
-		int dimension = caster.dimension;
-		String casterName = null;
-		if (caster instanceof EntityPlayer) casterName = ((EntityPlayer)caster).getDisplayName();
-		
-		BoundPlayer boundPlayerData = BoundPlayer.For(searcher);
-		boundPlayerData.setData(casterName, dimension, posX, posY, posZ);
+			BoundPlayer.For(searcher).setBoundPlayer(casterName);
+		}
 		
 		return true;
 	}
