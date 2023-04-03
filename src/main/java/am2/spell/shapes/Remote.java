@@ -7,6 +7,7 @@ import am2.api.spell.enums.SpellCastResult;
 import am2.items.ItemsCommonProxy;
 import am2.playerextensions.BoundPlayer;
 import am2.spell.SpellHelper;
+import am2.spell.SpellUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -23,9 +24,19 @@ public class Remote implements ISpellShape{
 
 	@Override
 	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, int side, boolean giveXP, int useCount){
-		EntityPlayer targetPlayer = MinecraftServer.getServer().getConfigurationManager().func_152612_a(BoundPlayer.For(caster).getBoundPlayer());
-
-		return SpellHelper.instance.applyStageToEntity(stack, caster, world, targetPlayer, 0, giveXP);
+		if (!world.isRemote) {
+			BoundPlayer boundPlayerData = BoundPlayer.For(caster);
+			EntityPlayer targetPlayer = MinecraftServer.getServer().getConfigurationManager().func_152612_a(boundPlayerData.getBoundPlayer());
+	
+			SpellCastResult result = SpellHelper.instance.applyStageToEntity(stack, caster, world, targetPlayer, 0, giveXP);
+			if (result != SpellCastResult.SUCCESS){
+				return result;
+			}
+	
+			ItemStack newItemStack = SpellUtils.instance.popStackStage(stack);
+			return SpellHelper.instance.applyStackStage(newItemStack, caster, target, x, y, z, 0, world, true, giveXP, 0);
+		}
+		return null;
 	}
 
 	@Override

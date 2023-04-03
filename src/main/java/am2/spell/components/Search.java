@@ -20,23 +20,26 @@ public class Search implements ISpellComponent {
 
 	@Override
 	public boolean applyEffectBlock(ItemStack stack, World world, int blockx, int blocky, int blockz, int blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-		return applyEffect(stack, caster);
+		return applyEffect(stack, world, caster);
 	}
 
 	@Override
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
-		return applyEffect(stack, caster);
+		return applyEffect(stack, world, caster);
 	}
 	
-	public boolean applyEffect(ItemStack stack, EntityLivingBase caster) {
-		EntityPlayer boundPlayer = MinecraftServer.getServer().getConfigurationManager().func_152612_a(BoundPlayer.For(caster).getBoundPlayer());
+	public boolean applyEffect(ItemStack stack, World world, EntityLivingBase caster) {
+		if (!world.isRemote) {
+			EntityPlayer boundPlayer = MinecraftServer.getServer().getConfigurationManager().func_152612_a(BoundPlayer.For(caster).getBoundPlayer());
 				
-		if (caster instanceof EntityPlayer && (boundPlayer != null)) {
-				((EntityPlayer)caster).addChatMessage(new ChatComponentText("Name: " + boundPlayer.getDisplayName()));
-				((EntityPlayer)caster).addChatMessage(new ChatComponentText("Dimension: " + boundPlayer.dimension));
-				return true;
+			if (caster instanceof EntityPlayer && (boundPlayer != null)) {
+					((EntityPlayer)caster).addChatMessage(new ChatComponentText("Name: " + boundPlayer.getDisplayName()));
+					((EntityPlayer)caster).addChatMessage(new ChatComponentText("Dimension: " + boundPlayer.dimension));
+					return true;
+			}
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	@Override
