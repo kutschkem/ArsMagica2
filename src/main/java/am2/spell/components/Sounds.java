@@ -26,12 +26,9 @@ public class Sounds implements ISpellComponent {
 	
 	public boolean applyEffect(ItemStack stack, World world, double x, double y, double z) {
 		String sound = SpellUtils.instance.getSpellMetadata(stack, "Sound");
-			world.playSoundEffect(x, y, z, "botania:doit", 0.9F, world.rand.nextFloat() - world.rand.nextFloat() * 0.2F + 1.0F);
-		if(sound != null && !sound.isEmpty()) {
-			world.playSoundEffect(x, y, z, sound, 0.9F, world.rand.nextFloat() - world.rand.nextFloat() * 0.2F + 1.0F);
-			return true;
-		}
-		else return false;
+		if (sound.isBlank()) sound = "botania:doit";
+		world.playSoundEffect(x, y, z, sound, 0.9F, world.rand.nextFloat() - world.rand.nextFloat() * 0.2F + 1.0F);
+		return true;
 	}
 
 	@Override
