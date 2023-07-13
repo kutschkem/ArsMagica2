@@ -23,10 +23,10 @@ public class Sounds implements ISpellComponent {
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target) {
 		return applyEffect(stack, world, target.posX, target.posY, target.posZ);
 	}
-	
+
 	public boolean applyEffect(ItemStack stack, World world, double x, double y, double z) {
 		String sound = SpellUtils.instance.getSpellMetadata(stack, "Sound");
-		if (sound.isBlank()) sound = "botania:doit";
+		if (sound.trim().isEmpty()) sound = "botania:doit";
 		world.playSoundEffect(x, y, z, sound, 0.9F, world.rand.nextFloat() - world.rand.nextFloat() * 0.2F + 1.0F);
 		return true;
 	}
@@ -75,7 +75,7 @@ public class Sounds implements ISpellComponent {
 	public float getAffinityShift(Affinity affinity){
 		return 0.0f;
 	}
-	
+
 	public void setSound(ItemStack stack, ItemStack noteblockStack){
 		SpellUtils.instance.setSpellMetadata(stack, "Sound", noteblockStack.getDisplayName());
 	}

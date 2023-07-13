@@ -1,5 +1,6 @@
 package am2.spell.components;
 
+import am2.AMCore;
 import am2.RitualShapeHelper;
 import am2.api.ArsMagicaApi;
 import am2.api.blocks.MultiblockStructureDefinition;
@@ -14,13 +15,16 @@ import am2.spell.SpellUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
 import java.util.Random;
+import java.util.Arrays;
 
 public class Rift implements ISpellComponent, IRitualInteraction{
 
@@ -47,6 +51,11 @@ public class Rift implements ISpellComponent, IRitualInteraction{
 		}
 
 		if (world.isRemote){
+			return true;
+		}
+		if (Arrays.stream(AMCore.skillConfig.getRiftDimBl()).anyMatch(x -> x == caster.dimension)){
+			if (caster instanceof EntityPlayer)
+				((EntityPlayer)caster).addChatMessage(new ChatComponentText("Nothing happens..."));
 			return true;
 		}
 		EntityRiftStorage storage = new EntityRiftStorage(world);
