@@ -210,7 +210,7 @@ public class TileEntityLectern extends TileEntityEnchantmentTable{
 	}
 
 	public boolean setStack(ItemStack stack){
-		if (stack == null || getValidItems().contains(stack.getItem())){
+		if (stack == null || isValidBook(stack)){
 			this.stack = stack;
 			if (!this.worldObj.isRemote){
 				AMDataWriter writer = new AMDataWriter();
@@ -247,20 +247,31 @@ public class TileEntityLectern extends TileEntityEnchantmentTable{
 		this.readFromNBT(pkt.func_148857_g());
 	}
 
-	private ArrayList<Item> getValidItems(){
-		ArrayList<Item> validItems = new ArrayList<Item>();
+	private boolean isValidBook(ItemStack stack){
+		String name = stack.getUnlocalizedName();
+		String[] validBooks = AMCore.config.getAllowedBooks();
 
-		validItems.add(Items.written_book);
-		validItems.add(ItemsCommonProxy.arcaneCompendium);
+    // blacklist items/mods that don't work
+		// witchery: the code expects the book to be in the hand of the player
+		String[] blackList = new String[]{"witchery"};
 
-		if (Loader.isModLoaded("Thaumcraft")){
-			ItemStack item = thaumcraft.api.ItemApi.getItem("itemThaumonomicon", 0);
-			if (item != null){
-				validItems.add(item.getItem());
+
+		boolean valid = false;
+		for(String bookpart: validBooks) {
+			if(name.matches( "(?i).*" + bookpart + ".*")) {
+				valid = true;
+				continue;
 			}
 		}
 
-		return validItems;
+		for(String bookpart: blackList) {
+			if(name.matches( ".*" + bookpart + ".*")) {
+				valid = false;
+				continue;
+			}
+		}
+
+		return valid;
 	}
 
 	@Override
