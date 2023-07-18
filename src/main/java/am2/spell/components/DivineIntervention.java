@@ -1,5 +1,6 @@
 package am2.spell.components;
 
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Random;
 
@@ -41,7 +42,7 @@ public class DivineIntervention implements ISpellComponent{
 		catch(Exception e) {
 			FMLLog.info("[To_Craft] am2: " + e);
 		}
-		
+
 		if (world.isRemote || !(target instanceof EntityLivingBase)) return true;
 
 		if (((EntityLivingBase)target).isPotionActive(BuffList.astralDistortion.id)){
@@ -50,7 +51,7 @@ public class DivineIntervention implements ISpellComponent{
 			return true;
 		}
 
-		if (target.dimension == 1){
+		if (Arrays.stream(AMCore.skillConfig.getInterventionDimBl()).anyMatch(x -> x == target.dimension)){
 			if (target instanceof EntityPlayer)
 				((EntityPlayer)target).addChatMessage(new ChatComponentText("Nothing happens..."));
 			return true;

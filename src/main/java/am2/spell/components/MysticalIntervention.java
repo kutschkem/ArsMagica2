@@ -2,6 +2,7 @@ package am2.spell.components;
 
 import java.util.EnumSet;
 import java.util.Random;
+import java.util.Arrays;
 
 import am2.AMCore;
 import am2.api.ArsMagicaApi;
@@ -54,7 +55,7 @@ public class MysticalIntervention implements ISpellComponent{
 			return true;
 		}
 
-		if (target.dimension == 1){
+		if (Arrays.stream(AMCore.skillConfig.getInterventionDimBl()).anyMatch(x -> x == target.dimension)){
 			if (target instanceof EntityPlayer)
 				((EntityPlayer)target).addChatMessage(new ChatComponentText("Nothing happens..."));
 			return true;
